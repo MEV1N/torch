@@ -1,26 +1,332 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =============================================
+   TORCH — Romantic Dark Design System
+   ============================================= */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: #0a0a0f;
+  --color-foreground: #f5f0f0;
+  --color-surface: #141420;
+  --color-surface-light: #1c1c2e;
+  --color-surface-lighter: #252540;
+
+  /* Romantic color palette */
+  --color-rose-primary: #e8547c;
+  --color-rose-light: #f472b6;
+  --color-rose-dark: #be185d;
+  --color-rose-glow: rgba(232, 84, 124, 0.3);
+  --color-blush: #fda4af;
+  --color-romantic-purple: #a855f7;
+  --color-purple-soft: #7c3aed;
+  --color-lavender: #c084fc;
+  --color-warm-pink: #fb7185;
+  --color-midnight: #0f0f1a;
+  --color-soft-white: #faf5ff;
+  --color-muted: #6b6b8a;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-light: rgba(255, 255, 255, 0.1);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-slide-up: slide-up 0.5s ease-out forwards;
+  --animate-slide-down: slide-down 0.3s ease-out forwards;
+  --animate-scale-in: scale-in 0.3s ease-out forwards;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-heartbeat: heartbeat 1.2s ease-in-out infinite;
+  --animate-flame: flame 1.5s ease-in-out infinite;
+  --animate-bounce-soft: bounce-soft 2s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =============================================
+   Keyframe Animations
+   ============================================= */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px var(--color-rose-glow); }
+  50% { box-shadow: 0 0 40px var(--color-rose-glow), 0 0 60px rgba(168, 85, 247, 0.15); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.1); }
+}
+
+@keyframes flame {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+  25% { transform: scaleY(1.1) scaleX(0.95); }
+  50% { transform: scaleY(0.95) scaleX(1.05); opacity: 0.85; }
+  75% { transform: scaleY(1.05) scaleX(0.98); }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =============================================
+   Base Styles
+   ============================================= */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile safe areas */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* =============================================
+   Custom Scrollbar
+   ============================================= */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-rose-primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-rose-light);
+}
+
+/* =============================================
+   Glassmorphism Utilities
+   ============================================= */
+
+.glass {
+  background: rgba(20, 20, 32, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-light {
+  background: rgba(28, 28, 46, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border-light);
+}
+
+.glass-strong {
+  background: rgba(20, 20, 32, 0.8);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--color-border-light);
+}
+
+/* =============================================
+   Glow Effects
+   ============================================= */
+
+.glow-rose {
+  box-shadow: 0 0 20px var(--color-rose-glow),
+              0 0 40px rgba(232, 84, 124, 0.1);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3),
+              0 0 40px rgba(168, 85, 247, 0.1);
+}
+
+.glow-text-rose {
+  text-shadow: 0 0 20px var(--color-rose-glow);
+}
+
+.glow-text-purple {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+/* =============================================
+   Gradient Backgrounds
+   ============================================= */
+
+.gradient-romantic {
+  background: linear-gradient(135deg, var(--color-rose-dark), var(--color-romantic-purple));
+}
+
+.gradient-rose {
+  background: linear-gradient(135deg, var(--color-rose-primary), var(--color-warm-pink));
+}
+
+.gradient-mesh {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(232, 84, 124, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(251, 113, 133, 0.05) 0%, transparent 50%);
+}
+
+.gradient-animated {
+  background: linear-gradient(-45deg, #0a0a0f, #1a0a1a, #0f0a1a, #0a0a0f);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* =============================================
+   Component Utilities
+   ============================================= */
+
+.card-romantic {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-romantic:hover {
+  border-color: var(--color-border-light);
+  transform: translateY(-2px);
+}
+
+/* Bottom nav safe spacing */
+.pb-nav {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Input styles */
+.input-romantic {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  color: var(--color-foreground);
+  font-size: 16px; /* Prevents zoom on iOS */
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+}
+
+.input-romantic:focus {
+  border-color: var(--color-rose-primary);
+  box-shadow: 0 0 0 3px var(--color-rose-glow);
+}
+
+.input-romantic::placeholder {
+  color: var(--color-muted);
+}
+
+/* Button base */
+.btn-romantic {
+  background: linear-gradient(135deg, var(--color-rose-primary), var(--color-rose-dark));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-romantic:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px var(--color-rose-glow);
+}
+
+.btn-romantic:active {
+  transform: translateY(0);
+}
+
+.btn-romantic:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-surface-light) 50%, var(--color-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  border-radius: 10px;
+}
+
+/* Hide scrollbar but allow scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
